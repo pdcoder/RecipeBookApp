@@ -2,6 +2,10 @@ import { RecipesComponent } from "./recipes/recipes.component";
 import { ShoppingListComponent } from "./shopping-list/shopping-list.component";
 import { NgModel } from "@angular/forms";
 import { RecipeEditComponent } from "./recipes/recipe-edit/recipe-edit.component";
+import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
+import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
+import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
 
 const appRoutes = [
     {path:'', redirectTo:'/recipes', pathMatch: 'full'},
