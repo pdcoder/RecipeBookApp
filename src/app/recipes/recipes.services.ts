@@ -3,7 +3,7 @@ import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import { EventEmitter, Injectable } from '@angular/core';
 
-@Injectable
+@Injectable()
 export class RecipeService{
     recipeSelected = new EventEmitter<Recipe>();
 
