@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Params } from '@angular/router';
-import { FormGroup } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+
+import { RecipeService } from '../recipe.service';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -11,8 +12,12 @@ import { FormGroup } from '@angular/forms';
 export class RecipeEditComponent implements OnInit {
   id: number;
   editMode = false;
-recipeForm : FormGroup;
-  constructor(private route: ActivatedRoute) { }
+  recipeForm: FormGroup;
+
+  constructor(private route: ActivatedRoute,
+              private recipeService: RecipeService,
+              private router: Router) {
+  }
 
   ngOnInit() {
     this.route.params
@@ -21,20 +26,23 @@ recipeForm : FormGroup;
           this.id = +params['id'];
           this.editMode = params['id'] != null;
           this.initForm();
-
         }
       );
   }
+
   onSubmit() {
-    
+    // const newRecipe = new Recipe(
+    //   this.recipeForm.value['name'],
+    //   this.recipeForm.value['description'],
+    //   this.recipeForm.value['imagePath'],
+    //   this.recipeForm.value['ingredients']);
     if (this.editMode) {
       this.recipeService.updateRecipe(this.id, this.recipeForm.value);
     } else {
       this.recipeService.addRecipe(this.recipeForm.value);
     }
     this.onCancel();
-  }  
-
+  }
 
   onAddIngredient() {
     (<FormArray>this.recipeForm.get('ingredients')).push(
@@ -46,8 +54,7 @@ recipeForm : FormGroup;
         ])
       })
     );
-  }  
-
+  }
 
   onDeleteIngredient(index: number) {
     (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
@@ -56,7 +63,7 @@ recipeForm : FormGroup;
   onCancel() {
     this.router.navigate(['../'], {relativeTo: this.route});
   }
- 
+
   private initForm() {
     let recipeName = '';
     let recipeImagePath = '';
@@ -90,4 +97,5 @@ recipeForm : FormGroup;
       'ingredients': recipeIngredients
     });
   }
+
 }
